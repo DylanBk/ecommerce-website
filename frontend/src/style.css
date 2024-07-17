@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background-light: #F5F5F5;
+    --background-dark: #0A0A0A;
+    --primary: #08C440;
+    --secondary: #00C2B5;
+    --accent: #C02EFF;
+    --accent-light: #C94DFE;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    background: var(--background-light);
+    color: black;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* #navbar {
+    width: 100vw !important;
+} */
+
+#category-select {
+    background-image: url('./assets/dropdown-arrow-black.png') !important;
+    background-position-x: 95% !important;
+    background-position-y: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 10px !important;
+}
+
+select, option {
+    appearance: none;
+    border: solid 1px var(--background-light) !important;
+    background: var(--background-light) !important;
+    outline: var(--background-light) !important;
+}
+select:hover, option:hover {
+    background: #DEDEDE !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: var(--background-dark);
+        color: white;
+    }
+
+    #category-select {
+        background-image: url('./assets/dropdown-arrow-white.png') !important;
+    }
+
+    select, option {
+        border: solid 1px var(--background-dark) !important;
+        background: var(--background-dark) !important;
+        outline: var(--background-dark) !important;
+    }
+    select:hover, option:hover {
+        background: rgb(69, 69, 69, 0.3) !important;
+    }
+}
+
+@media (min-width: 0px) {
+    p, a, select, option, input {
+        font-size: small;
+    }
+}
+
+@media (min-width: 640px) {
+    p, a, select, option, input {
+        font-size: medium;
+    }
+}
+
+@media (min-width: 768px) {
+    p, a, select, option, input {
+        font-size: large;
+    }
+}
