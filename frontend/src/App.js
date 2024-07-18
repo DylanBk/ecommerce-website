@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './style.css';
-import Header from './components/Header'
+import Home from './components/pages/Home';
+import RegisterForm from './components/layout/RegisterForm';
+import LoginForm from './components/layout/LoginForm';
 
 function App() {
-  const [message, setMessage] = useState('');
+  const [setMessage] = useState('');
 
   useEffect(() => {
     fetch('/')
@@ -13,10 +16,13 @@ function App() {
   })
 
   return (
-    <div>
-      {/* <p>{ message }</p> */}
-      <Header />
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path='/' Component={Home} />
+        <Route exact path='/signup' Component={RegisterForm} />
+        <Route exact path='/login' Component={LoginForm} />
+      </Routes>
+    </Router>
   );
 };
 

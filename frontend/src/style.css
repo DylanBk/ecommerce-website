@@ -40,6 +40,10 @@ a {
     background-size: 10px !important;
 }
 
+#search-bar-query-normal {
+    font-size: small !important;
+}
+
 select, option {
     appearance: none;
     border: solid 1px var(--background-light) !important;
@@ -48,6 +52,12 @@ select, option {
 }
 select:hover, option:hover {
     background: #DEDEDE !important;
+}
+
+
+input {
+    background-color: white;
+    color: black;
 }
 
 @media (prefers-color-scheme: dark) {

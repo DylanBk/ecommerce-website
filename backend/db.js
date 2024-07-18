@@ -1,44 +1,22 @@
-const { MongoClient } = require('mongodb');
-require('dotenv').config();
+const mongoose = require('mongoose');
+const connection_string = process.env.MONGO_URI;
 
-const connect_db = async () => {
-    try {
-        const client = new MongoClient(process.env.MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+function connect_db()  {
+    mongoose.connect(connection_string);
 
-        await client.connect(); // Wait for database connection
+    database_connection = mongoose.connection;
 
-        console.log('MongoDB Connected Successfully');
+    database_connection.on('connected', () => {
+        console.log("Database Connected Successfully");
+    });
 
-        const database = client.db('users');
+    database_connection.on('error', (err) => {
+        console.log(`MongoDB Error: ${err}`);
+    });
 
-        const collections = await database.collections(); // Wait for db collections to be fetched
-        console.log('Collections:', collections.map(col => col.collectionName)); // List all db collections
-
-        const collection = database.collection('users');
-
-        // Example operation: insert a document
-        // await collection.insertOne({ name: "Jane Doe", email: "jane@example.com" });
-
-        // Example operation: find documents
-        const users = await collection.find().toArray();
-        console.log('Users:', users);
-
-        // Close the connection when done
-        await client.close();
-
-    } catch (error) {
-        console.log(`URI: ${process.env.MONGO_URI}`);
-        console.error('Error connecting to MongoDB:', error.message);
-        process.exit(1); // Exit with failure
-    }
-};
-
-const get_db = () => {
-    console.log("Database retrieved")
-    return client.db();
+    database_connection.on('disconnected', () => {
+        console.log("Database Disconnected");
+    });
 }
 
-module.exports = { connect_db, get_db };
+module.exports = { connect_db };
