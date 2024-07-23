@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 
 router.post('/login', async (req, res) => {
     const { email, password } = await req.body;
@@ -26,6 +27,25 @@ router.post('/login', async (req, res) => {
             }
         })
 
+        let plain_user =  {
+            email: user.email,
+            username: user.username,
+            role: user.role,
+        }
+
+        try{
+            var token = jwt.sign(plain_user, process.env.MY_SECRET, { expiresIn: "1h" });
+        }  catch(error) {
+            console.log('User:', user);
+            console.log('Type of User:', typeof user);            
+            console.error(error)
+        }
+
+        res.cookie("token", token, {
+            secure: true,
+            httpOnly: true,
+            sameSite: 'strict'
+        })
         res.cookie("Email", user.email, {
             secure: true,
             httpOnly: true,
@@ -42,9 +62,9 @@ router.post('/login', async (req, res) => {
             sameSite: 'strict'
         })
 
-        res.redirect('/');
+        return res.redirect('/');
     } catch(error) {
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: error.message });
     }
 })
 
@@ -58,9 +78,9 @@ router.post('/signup', async (req, res) => {
         }
 
         let user = new User ({
-            email,
-            username,
-            password
+            email: email,
+            username: username,
+            password: password
         });
 
         bcrypt.genSalt(10, function(err, salt) {

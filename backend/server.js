@@ -1,17 +1,23 @@
 require('dotenv').config({ path: '../.env' });
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const { connect_db } = require('./db');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
+
 const users_router = require('./routes/users');
+const product_options_router = require('./routes/product-options');
 
 connect_db();
 
 
-// --- MIDDLEWARE ---
+// --- SETUP ---
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, '../frontend/public')));
 index_path = path.join(__dirname, '../frontend/public', 'index.html');
 
@@ -38,8 +44,10 @@ app.get('../src/style.css', (req, res) => {
 
 
 // --- ROUTES ---
+const {get_products} = require('./controllers/get-products');
 
 const handle_index_routes = (req, res) => {
+    get_products();
     res.sendFile(index_path);
     res.send("Backend Test");
 }
@@ -51,6 +59,7 @@ app.get('/index', handle_index_routes);
 
 // --- USER RELATED ROUTES ---
 app.use('/api/users', users_router);
+app.use('/api/products', product_options_router);
 
 
 // --- main program ---
