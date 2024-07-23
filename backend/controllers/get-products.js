@@ -11,10 +11,9 @@ const get_products = async () => {
             throw new Error("No Products Found")
         }
         console.log("Products Fetched");
-        // const productsArr = Object.keys(products).map((key) => [key, products[key]]);
-        const productsArr = Object.entries(products);
-        console.log(productsArr)
-        console.log(typeof(productsArr))
+
+        const productsArr = products.map(product => [product._id, product]);
+
         return productsArr;
     } catch(error) {
         console.error(error.message);

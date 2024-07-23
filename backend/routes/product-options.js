@@ -22,10 +22,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-router.get('/all', (req, res) => {
+router.get('/all', async (req, res) => {
     try {
-        const products = get_products();
-        console.log(typeof(products));
+        const products = await get_products();
         res.json(products);
     } catch (error) {
         console.error(`Error Fetching Products: ${error.message}`);
@@ -44,10 +43,6 @@ router.post('/createproduct', upload.fields([
             "product-name": product_name,
             "product-desc": product_description,
         } = await req.body;
-
-        console.log(`Form Data: ${product_name}, ${product_description}`)
-        // console.log(req.body)
-        console.log(req.files)
 
         const product_cover_image = req.files && req.files['product-cover-img'] ? req.files['product-cover-img'][0]: null;
         // const product_sub_images = req.files && req.files['product-sub-imgs'] ? req.files['product-sub-imgs'][0]: null;

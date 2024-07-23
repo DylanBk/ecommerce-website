@@ -9,6 +9,10 @@ const ProductSchema = new mongoose.Schema ({
         type: String,
         required: true
     },
+    productCategory: {
+        type: String,
+        required: true,
+    },
     productCoverImage: {
         type: String,
         required: true

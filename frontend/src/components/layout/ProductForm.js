@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function ProductForm() {
     return (
         <div>
-            <form action='/api/productoptions/createproduct' method='post'  encType="multipart/form-data">
+            <form action='/api/products/createproduct' method='post'  encType="multipart/form-data">
                 <input name='product-name' type='text'></input>
                 <input name='product-desc' type='text'></input>
                 <input name='product-cover-img' type='file'></input>
