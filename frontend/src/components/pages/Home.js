@@ -1,20 +1,20 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 
-import ProductForm from "../layout/ProductForm";
 import ProductsList from "../layout/Products";
 
 function Home() {
+    const [category, setCategory] = useState('');
+
+    const handleCategoryChange = (selectedCategory) => {
+        setCategory(selectedCategory);
+    };
+
     return (
         <div>
-            <Header />
-            <Link to="/signup">Register</Link>
-            <Link to="/login">Login</Link>
-            <Link to="/products">All Products</Link>
-            <ProductForm />
-            <ProductsList />
+            <Header onCategoryChange={handleCategoryChange} />
+            <ProductsList category={category} />
             <Footer />
         </div>
     )

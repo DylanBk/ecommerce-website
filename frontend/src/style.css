@@ -16,7 +16,8 @@
 html, body {
     height: 100%;
     width: 100%;
-    background: var(--background-light);
+    position: relative !important;
+    background-color: var(--background-light);
     color: black;
 }
 
@@ -49,11 +50,11 @@ a {
 select, option {
     appearance: none;
     border: solid 1px var(--background-light) !important;
-    background: var(--background-light) !important;
+    background-color: var(--background-light) !important;
     outline: var(--background-light) !important;
 }
 select:hover, option:hover {
-    background: #DEDEDE !important;
+    background-color: #DEDEDE !important;
 }
 
 
@@ -64,7 +65,7 @@ input {
 
 @media (prefers-color-scheme: dark) {
     body {
-        background: var(--background-dark);
+        background-color: var(--background-dark);
         color: white;
     }
 
@@ -74,11 +75,11 @@ input {
 
     select, option {
         border: solid 1px var(--background-dark) !important;
-        background: var(--background-dark) !important;
+        background-color: var(--background-dark) !important;
         outline: var(--background-dark) !important;
     }
     select:hover, option:hover {
-        background: rgb(69, 69, 69, 0.3) !important;
+        background-color: rgb(69, 69, 69, 0.3) !important;
     }
 }
 

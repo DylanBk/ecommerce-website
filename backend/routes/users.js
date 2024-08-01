@@ -3,68 +3,67 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const jwt = require('jsonwebtoken');
 
 router.post('/login', async (req, res) => {
-    const { email, password } = await req.body;
+    let { email, password } = await req.body;
 
-    try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ message: "User Does Not Exist" });
-        }
-
-        bcrypt.compare(password, user.password, function(err, res) {
-            if (err) {
-                console.error(`Error: ${err}`);
+    if (req.session.authenticated) {
+        res.status(400).json({ message: `Already Logged In ${session}` })
+        let x = req.session.authenticated
+        console.log(x)
+    } else {
+        try {
+            const user = await User.findOne({ email });
+            if (!user) {
+                return res.status(400).json({ message: "User Does Not Exist" });
             }
-            if (res) {
-                console.log("User Logged In Successfully");
+
+            bcrypt.compare(password, user.password, function(err, res) {
+                if (err) {
+                    console.error(`Error: ${err}`);
+                }
+                if (res) {
+                    console.log("User Logged In Successfully");
+                }
+                else {
+                    console.log("Invalid Password");
+                    return;
+                }
+            })
+
+            const plain_user = {
+                email: user.email,
+                username: user.username,
+                role: user.role
             }
-            else {
-                console.log("Invalid Password");
-                return;
+
+            try{
+                var token = jwt.sign(plain_user, process.env.MY_SECRET, { expiresIn: "1h" });
+            }  catch(error) {          
+                console.error(error);
+            };
+
+            try {
+                email = user.email
+                username = user.username
+                role = user.role
+
+                req.session.token = token;
+                req.session.authenticated = true;
+                req.session.user = {
+                    email,
+                    username,
+                    role
+                };
+                res.redirect('/');
+            } catch (error) {
+                res.status(500).json({ message: error.message })
             }
-        })
-
-        let plain_user =  {
-            email: user.email,
-            username: user.username,
-            role: user.role,
+        } catch(error) {
+            res.status(500).json({ message: error.message });
         }
-
-        try{
-            var token = jwt.sign(plain_user, process.env.MY_SECRET, { expiresIn: "1h" });
-        }  catch(error) {
-            console.log('User:', user);
-            console.log('Type of User:', typeof user);            
-            console.error(error)
-        }
-
-        res.cookie("token", token, {
-            secure: true,
-            httpOnly: true,
-            sameSite: 'strict'
-        })
-        res.cookie("Email", user.email, {
-            secure: true,
-            httpOnly: true,
-            sameSite: 'strict'
-        })
-        res.cookie("Username", user.username, {
-            secure: true,
-            httpOnly: true,
-            sameSite: 'strict'
-        })
-        res.cookie("Role", user.role, {
-            secure: true,
-            httpOnly: true,
-            sameSite: 'strict'
-        })
-
-        return res.redirect('/');
-    } catch(error) {
-        res.status(500).json({ message: error.message });
     }
 })
 

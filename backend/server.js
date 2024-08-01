@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const { connect_db } = require('./db');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const helmet = require('helmet');
 const path = require('path');
 const fs = require('fs');
@@ -17,7 +18,10 @@ connect_db();
 
 // --- SETUP ---
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5000',
+    credentials: true
+}));
 app.use(express.static(path.join(__dirname, '../frontend/public')));
 index_path = path.join(__dirname, '../frontend/public', 'index.html');
 
@@ -27,6 +31,17 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(helmet());
+
+app.use(session({
+    secret: process.env.MY_SECRET,
+    cookie: {
+        maxAge: 30000,
+        secure: false,
+        httpOnly: true,
+        sameSite: true
+    },
+    saveUninitialized: false
+}))
 
 
 // SET VIEW ENGINE
@@ -44,6 +59,7 @@ app.get('../src/style.css', (req, res) => {
 
 
 // --- ROUTES ---
+
 const {get_products} = require('./controllers/get-products');
 
 const handle_index_routes = (req, res) => {
@@ -55,6 +71,19 @@ const handle_index_routes = (req, res) => {
 app.get('/', handle_index_routes);
 app.get('/home', handle_index_routes);
 app.get('/index', handle_index_routes);
+
+
+// --- SESSION STATUS ROUTE ---
+app.get('/session-status', (req, res) => {
+    if (req.session.user) {
+        res.json({
+            sessionExists: true,
+            user: req.session.user
+        });
+    } else {
+        res.json({ sessionExists: false });
+    };
+})
 
 
 // --- USER RELATED ROUTES ---
