@@ -66,20 +66,20 @@ const ProductsList = ({ category }) => {
     }, [category]);
 
     return (
-        <div id='products-section-wrapper' className='flex-grow flex-shrink flex flex-col bg-darkest-grey'>
+        <div id='products-section-wrapper' className='flex-grow flex-shrink flex flex-col pb-10 lg:pb-28 dark:bg-darkest-grey'>
             <div className='relative flex flex-row'>
-                <Link className='absolute self-center p-2 rounded-full ml-4 bg-blue-500 text-center' to="/create-product">
+                <Link className='absolute self-center p-2 rounded-full ml-4 bg-blue-500 text-center text-white z-10 hover:bg-blue-600 transition-all' to="/create-product">
                     Upload+
                 </Link>
                 <ProductsListTitle category={category} />
             </div>
 
-            <div className='h-full relative flex flex-row flex-auto flex-wrap gap-4 px-4 pb-4 bg-darkest-grey'>
+            <div className='h-full w-full absolute flex flex-row flex-auto flex-wrap gap-4 self-center !justify-around sm:justify-start px-4 md:px-10 pb-4 mt-12 dark:bg-darkest-grey'>
                 {products.length > 0 ? (
                     products.map((product, index) => (
                         <Link
                             key={index}
-                            className='h-72 h-auto w-1/4 min-w-28 relative flex flex-col p-2 rounded-md mt-6 dark:bg-darker-grey dark:bg-opacity-60 dark:hover:scale-105 transition-all'
+                            className='h-72 w-1/2 min-w-64 sm:w-1/3 md:w-1/5 min-w-28 relative flex flex-col p-2 rounded-md mt-6 bg-gray-300 dark:bg-darker-grey dark:bg-opacity-60 hover:scale-105 transition-all'
                             to=""
                             >
                             <ul id='product-container' className='h-full w-full'>

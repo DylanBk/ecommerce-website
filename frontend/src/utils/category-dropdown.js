@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import renderOptions from "./render-dropdown-options";
 
 const CategoryDropdown = ({ categories, onCategoryChange }) => {
 
@@ -9,24 +10,15 @@ const CategoryDropdown = ({ categories, onCategoryChange }) => {
     onCategoryChange(selectedCategory);
   };
 
-  const renderOptions = () => {
-    const uniqueCategories = [...new Set(categories)].sort();
-    return uniqueCategories.map((category) => (
-      <option key={category} value={category}>
-        {category}
-      </option>
-    ));
-  };
-
   return (
     <select
       onChange={handleChange}
       id="category-select"
-      className="xl:w-52 lg:w-40 md:w-32 w-28 pl-2 py-1.5 rounded-l-md"
+      className="xl:w-64 lg:w-40 md:w-32 w-28 pl-2 py-1.5 rounded-l-md text-xs"
       aria-label="Category Select"
     >
-      <option key="All Products" value="All Products">Categories</option>
-      {renderOptions()}
+      <option key="All Products" value="All Products">All Products</option>
+      {renderOptions(categories)}
     </select>
   );
 };

@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 :root {
-    --background-light: #F5F5F5;
+    --background-light: #f5f5f5;
     --background-dark: #0A0A0A;
     --dark-grey: #2A2D31;
-    --grey: #465158;
-    --primary: #08C440;
+    --grey: #374151;
+    --grey-translucent: rgb(55, 65, 81, 0.3);
+    --primary: #2563eb;
     --secondary: #00C2B5;
     --accent: #C02EFF;
     --accent-light: #C94DFE;
@@ -29,6 +30,10 @@ html, body {
 
 a {
     text-decoration: none;
+}
+
+.back-button-1 {
+    background-color: red;
 }
 
 /* #navbar {
@@ -79,24 +84,26 @@ input {
         outline: var(--background-dark) !important;
     }
     select:hover, option:hover {
-        background-color: rgb(69, 69, 69, 0.3) !important;
+        background: rgb(0, 0, 0, 0.3);
+        background-color: var(--grey-translucent) !important;
+        background : 0.3;
     }
 }
 
 @media (min-width: 0px) {
-    p, a, select, option, input {
+    p, a, label, select, option, input {
         font-size: small;
     }
 }
 
 @media (min-width: 640px) {
-    p, a, select, option, input {
+    p, a, label, select, option, input {
         font-size: medium;
     }
 }
 
 @media (min-width: 768px) {
-    p, a, select, option, input {
+    p, a, label, select, option, input {
         font-size: large;
     }
 }

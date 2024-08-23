@@ -5,6 +5,8 @@ import Footer from '../layout/Footer';
 import ProductsList from "../layout/Products";
 
 function Home() {
+    document.title = "React App | Home"
+
     const [category, setCategory] = useState('');
 
     const handleCategoryChange = (selectedCategory) => {

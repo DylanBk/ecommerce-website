@@ -4,7 +4,9 @@ import './style.css';
 import Home from './components/pages/Home';
 import RegisterForm from './components/layout/RegisterForm';
 import LoginForm from './components/layout/LoginForm';
-import ProductForm from './components/layout/ProductForm';
+import Product  from './components/pages/Product';
+import CreateProduct from './components/pages/CreateProduct'
+
 
 function App() {
   const [setMessage] = useState('');
@@ -19,10 +21,16 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path='/' Component={Home} />
-        <Route exact path='/signup' Component={RegisterForm} />
-        <Route exact path='/login' Component={LoginForm} />
-        <Route exact path='/create-product' Component={ProductForm} />
+        {/* PUBLIC ROUTES */}
+        <Route exact path='/' element={<Home />} />
+
+        <Route exact path='/signup' element={<RegisterForm />} />
+        <Route exact path='/login' element={<LoginForm />} />
+
+        <Route exact path='/product' element={<Product />} />
+
+        {/* PRIVATE ROUTES */}
+        <Route exact path='/create-product' element={<CreateProduct />} />
       </Routes>
     </Router>
   );

@@ -12,6 +12,7 @@ const multer = require('multer');
 
 const users_router = require('./routes/users');
 const product_options_router = require('./routes/product-options');
+const products_options_router = require('./routes/products-options');
 
 connect_db();
 
@@ -88,7 +89,9 @@ app.get('/session-status', (req, res) => {
 
 // --- USER RELATED ROUTES ---
 app.use('/api/users', users_router);
-app.use('/api/products', product_options_router);
+app.use('/api/product', product_options_router);
+app.use('/api/products', products_options_router);
+
 
 
 // --- main program ---
